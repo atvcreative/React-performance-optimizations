@@ -1,0 +1,26 @@
+import Loadable from 'react-loadable';
+
+function MyLoadingComponent() {
+  return <div>Loading...</div>;
+}
+
+const LoadableAnotherComponent = Loadable({
+  loader: () => import('./another-component'),
+  LoadingComponent: MyLoadingComponent
+});
+
+class MyComponent extends React.Component {
+  render() {
+    return <LoadableAnotherComponent/>;
+  }
+}
+
+// Server side:
+import path from 'path';
+
+const LoadableAnotherComponent = Loadable({
+  loader: () => import('./another-component'),
+  LoadingComponent: MyLoadingComponent,
+  delay: 200,
+  serverSideRequirePath: path.join(__dirname, './another-component')
+});
